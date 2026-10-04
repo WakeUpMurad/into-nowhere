@@ -1,0 +1,12 @@
+{
+  "name": "into-nowhere",
+  "private": true,
+  "workspaces": ["apps/web"],
+  "scripts": {
+    "dev": "npm run dev --workspace @into-nowhere/web",
+    "dev:api": "cd apps/api && go run ./cmd/server",
+    "build": "npm run build --workspace @into-nowhere/web",
+    "test": "npm run test --workspace @into-nowhere/web",
+    "test:api": "cd apps/api && go test ./..."
+  }
+}
