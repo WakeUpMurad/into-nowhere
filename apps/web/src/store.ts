@@ -17,7 +17,7 @@ interface RitualState {
 }
 
 export const useRitualStore = create<RitualState>()(persist((set) => ({
-  locale: 'en', intention: 'wealth', amount: '1', wallet: 'apple', musicOn: true, phase: 'idle', theme: 'system',
+  locale: 'en', intention: 'wealth', amount: '1', wallet: 'apple', musicOn: true, phase: 'idle', theme: 'dark',
   setLocale: (locale) => set({ locale }),
   setIntention: (intention) => set({ intention, phase: 'idle' }),
   setAmount: (amount) => set({ amount }),

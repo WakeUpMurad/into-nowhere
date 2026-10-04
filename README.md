@@ -45,7 +45,7 @@ npm run test:api
 
 ## Демо на GitHub Pages
 
-Настроена автоматическая сборка и публикация демонстрации через `.github/workflows/pages.yml`: после push в `main` или ручного запуска workflow. В настройках репозитория **Settings → Pages → Source** нужно выбрать **GitHub Actions**. Ожидаемый адрес после успешного деплоя: [wakeupmurad.github.io/into-nowhere/](https://wakeupmurad.github.io/into-nowhere/).
+Публичное демо: [wakeupmurad.github.io/into-nowhere/](https://wakeupmurad.github.io/into-nowhere/). В репозитории включён источник **GitHub Actions**. Автоматическая сборка и публикация через `.github/workflows/pages.yml` запускается после push в `main` или ручного запуска workflow.
 
 Pages-сборка использует `VITE_DEPLOY_TARGET=github-pages` и `VITE_BASE_PATH=/into-nowhere/`. Это статическое демо без Go API: конфигурация встроена в приложение, платежи выключены. Проверки сумм и сборка должны пройти до публикации. Инструкция и устранение ошибок находятся в [docs/github-pages.md](docs/github-pages.md).
 

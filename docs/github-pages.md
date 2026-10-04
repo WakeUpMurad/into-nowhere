@@ -2,7 +2,7 @@
 
 Репозиторий: [WakeUpMurad/into-nowhere](https://github.com/WakeUpMurad/into-nowhere).
 
-Ожидаемый адрес после успешного размещения: [wakeupmurad.github.io/into-nowhere/](https://wakeupmurad.github.io/into-nowhere/). Наличие этой инструкции и workflow само по себе не подтверждает, что сайт уже опубликован.
+Публичное демо: [wakeupmurad.github.io/into-nowhere/](https://wakeupmurad.github.io/into-nowhere/). Первая публикация успешно выполнена 5 октября 2026 года. Источник **GitHub Actions** включён в настройках репозитория.
 
 ## Что размещается
 
