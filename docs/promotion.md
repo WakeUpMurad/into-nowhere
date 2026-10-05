@@ -2,11 +2,14 @@
 
 ## Publication status
 
-The separate **Release · Into Nowhere** YouTube channel and its first public English Short were published on **5 October 2026**. The channel has the original profile icon, a 2560×1440 banner, an English description and the commercial site's website link. The profile link was followed and verified to open the live English TON checkout. The Short played successfully on its public YouTube page; YouTube's copyright check reported no issues. No paid advertising was purchased. An Instagram profile has not been created.
+The separate **Release · Into Nowhere** YouTube channel and its first public English Short were published on **5 October 2026**. The channel has the original profile icon, a 2560×1440 banner, an English description and the commercial site's website link. The profile link was followed and verified to open the live English TON checkout. The Short played successfully on its public YouTube page; YouTube's copyright check reported no issues. No paid advertising was purchased.
+
+The owner created the Instagram profile **@release.into_nowhere**. Its original icon, **Release · Into Nowhere** display name and English bio are saved and verified on the profile. The first Reel is prepared in Chrome's upload dialog with the original music, vertical cover and English caption, but **has not been published**. Instagram's website field is disabled in the web editor and asks for the link to be added through the mobile app. The profile website link must be added and verified before publishing the Reel's “Visit our profile” call to action.
 
 - Channel: https://www.youtube.com/@ReleaseIntoNowhere
 - Channel ID: `UCQzmzmZdsUp0ni_AHIF6Aqg`
 - First public Short: https://youtube.com/shorts/dDM1aMfPfxY
+- Instagram profile: https://www.instagram.com/release.into_nowhere/
 
 English launch graphics and the original vertical video are saved in the ignored `outputs/promo/` directory. English social metadata and the 1200×630 link-preview image are also published on the commercial site and verified live.
 
@@ -56,19 +59,21 @@ YouTube does not yet allow this new channel to pin comments; it requires more ch
 ### Instagram bio
 
 Keep the wish. Let go of the pressure.
-Paid visual ritual from $1 in TON.
+Paid symbolic ritual, from $1 equivalent in TON.
 25% of gross payments allocated to direct help.
-↓ Open Release
+↓ Try Release
 
 ### Instagram caption
 
 What happens when you send $1 into nowhere?
 
-Release is a symbolic visual ritual: choose an intention, follow the geometry, and make a gesture from the TON equivalent of US$1, plus network fees.
+Release is a symbolic visual ritual: choose an intention, follow the geometry, and make a gesture from the TON equivalent of US$1, plus network fees. Native TON only.
 
-25% of gross payments before fees is allocated to direct help for people in need. Commercial experience; no promised outcomes.
+25% of gross payments before fees is allocated to direct help for people in need. Commercial experience; no promised wealth, health, luck, or relationship outcomes.
 
 Already use TON? Try Release through the link in our profile.
+
+Questions and refunds: murad.losangeles@gmail.com
 
 #IntoNowhere #TON #DigitalRitual
 
