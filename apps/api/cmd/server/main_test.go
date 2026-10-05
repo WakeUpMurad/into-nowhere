@@ -18,3 +18,17 @@ func TestListenAddress(t *testing.T) {
 		}
 	}
 }
+
+func TestExplicitListenAddress(t *testing.T) {
+	for _, address := range []string{"0.0.0.0:8080", "127.0.0.1:9000", "[::]:8080", "localhost:8080"} {
+		got, err := configuredListenAddress("", address)
+		if err != nil || got != address {
+			t.Fatalf("valid explicit address %q: %q, %v", address, got, err)
+		}
+	}
+	for _, address := range []string{":8080", "example.com:8080", "0.0.0.0:0", "http://0.0.0.0:8080", "0.0.0.0:65536"} {
+		if _, err := configuredListenAddress("", address); err == nil {
+			t.Fatalf("invalid explicit address accepted %q", address)
+		}
+	}
+}

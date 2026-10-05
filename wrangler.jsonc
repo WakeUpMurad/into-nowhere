@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "into-nowhere",
+  "main": "apps/payments-worker/src/index.ts",
+  "account_id": "85acae9008f4b9d22cd0b185fb46034e",
+  "compatibility_date": "2026-10-04",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "assets": {
+    "directory": "apps/web/dist",
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*", "/tonconnect-manifest.json"]
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "into-nowhere-payments",
+    "database_id": "bd4ab05f-b366-40ca-a048-4def95f58d90",
+    "migrations_dir": "apps/payments-worker/migrations"
+  }],
+  "vars": {
+    "PAYMENTS_ENABLED": "true",
+    "TON_RECIPIENT": "UQDwlMjt0fw1LHrUdj8wV4tHOZ-Y5NQEAVgp49F7oJfQpJU6",
+    "TON_RECIPIENT_RAW": "0:f094c8edd1fc352c7ad4763f30578b47399f98e4d404015829e3d17ba097d0a4",
+    "SUPPORT_EMAIL": "murad.losangeles@gmail.com",
+    "MERCHANT_NAME": "Into Nowhere"
+  },
+  "triggers": { "crons": ["* * * * *"] },
+  "observability": { "enabled": false },
+  "send_metrics": false
+}

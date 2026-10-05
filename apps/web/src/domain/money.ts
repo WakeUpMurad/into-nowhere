@@ -6,8 +6,9 @@ export function parseAmount(value: string): bigint | null {
   return BigInt(whole) * 100n + BigInt(fraction.padEnd(2, '0'));
 }
 
-export function formatAmount(cents: bigint): string {
+export function formatAmount(cents: bigint, currency: 'USD' | 'AZN' = 'USD'): string {
   const whole = (cents / 100n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009');
   const fraction = cents % 100n;
-  return `$${whole}${fraction === 0n ? '' : `.${fraction.toString().padStart(2, '0')}`}`;
+  const value = `${whole}${fraction === 0n ? '' : `.${fraction.toString().padStart(2, '0')}`}`;
+  return currency === 'USD' ? `$${value}` : `${value} ₼`;
 }

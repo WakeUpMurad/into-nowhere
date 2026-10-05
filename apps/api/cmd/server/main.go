@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -30,14 +31,35 @@ func listenAddress(port string) (string, error) {
 	return "127.0.0.1:" + strconv.Itoa(number), nil
 }
 
+func configuredListenAddress(port, explicit string) (string, error) {
+	if explicit == "" {
+		return listenAddress(port)
+	}
+	host, number, err := net.SplitHostPort(explicit)
+	if err != nil || (net.ParseIP(host) == nil && host != "localhost") {
+		return "", errors.New("LISTEN_ADDR must be an explicit IP address and port")
+	}
+	checked, err := listenAddress(number)
+	if err != nil {
+		return "", err
+	}
+	_, validatedPort, _ := net.SplitHostPort(checked)
+	return net.JoinHostPort(host, validatedPort), nil
+}
+
 func main() {
-	address, err := listenAddress(os.Getenv("PORT"))
+	address, err := configuredListenAddress(os.Getenv("PORT"), os.Getenv("LISTEN_ADDR"))
 	if err != nil {
 		log.Fatal(err)
 	}
+	handler, err := api.NewConfiguredHandler(api.OptionsFromEnv(os.Getenv))
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer handler.Close()
 	server := &http.Server{
 		Addr:              address,
-		Handler:           api.NewHandler(),
+		Handler:           handler,
 		ReadHeaderTimeout: 3 * time.Second,
 		ReadTimeout:       10 * time.Second,
 		WriteTimeout:      10 * time.Second,
@@ -54,7 +76,11 @@ func main() {
 			log.Printf("shutdown: %v", err)
 		}
 	}()
-	log.Printf("Demo API listening on http://%s; real payments are disabled", address)
+	if handler.PaymentsEnabled() {
+		log.Printf("Payment API listening on %s; Epoint checkout is configured", address)
+	} else {
+		log.Printf("Demo API listening on %s; real payments are disabled", address)
+	}
 	if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal(err)
 	}

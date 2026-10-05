@@ -2,6 +2,39 @@ export type Locale = 'ru' | 'en' | 'az';
 
 export type Intention = 'wealth' | 'health' | 'success' | 'love' | 'gratitude';
 
+export const commerceTranslations = {
+  ru: {
+    loading: 'Подготавливаем оплату TON…',
+    checkoutUnavailable: 'Не удалось загрузить оплату. Если ты уже отправил TON, свяжись с поддержкой перед повторным переводом.', retry: 'Загрузить ещё раз',
+    amountLabel: 'Сумма от {min} · ориентир в USD', amountAria: 'Сумма в {currency}',
+    amountNote: 'Перед переводом увидишь точную сумму в TON.',
+    supportCopy: '25% каждого полученного перевода до комиссий — на прямую помощь людям.',
+    helpCopy: '«В никуда» — название ритуала. Получатель — коммерческий сервис Into Nowhere. 25% каждого полученного перевода до комиссий выделяются на прямую помощь нуждающимся; остальные 75% — доход сервиса и его расходы. При оплате TON доля помощи учитывается в TON. Подтверждения помощи публикуются после её оказания, личные истории — только с согласия получателей. Отчётов об оказанной помощи пока нет.',
+    helpNote: 'Оплата — за символический ритуал и поддержку сервиса. Пожелание остаётся личным намерением: успех, деньги, любовь или здоровье не гарантируются. Доллары показывают ориентир; перевод и возможный возврат происходят в TON. Сетевую комиссию кошелёк показывает отдельно.',
+    legalLabel: 'Информация о сервисе', terms: 'Оплата и возвраты', privacy: 'Конфиденциальность', contact: 'Связаться',
+  },
+  en: {
+    loading: 'Preparing TON payments…',
+    checkoutUnavailable: 'Payment could not be loaded. If you already sent TON, contact support before sending again.', retry: 'Load again',
+    amountLabel: 'From {min} · USD reference', amountAria: 'Amount in {currency}',
+    amountNote: 'You’ll see the exact TON amount before sending.',
+    supportCopy: '25% of every received payment before fees goes towards direct help for people in need.',
+    helpCopy: '“Into Nowhere” is the ritual’s name. The recipient is the commercial service Into Nowhere. We allocate 25% of every received payment, before fees, to direct help for people in need. The other 75% is service revenue and covers its costs. For TON payments, the help allocation is recorded in TON. Evidence is published after help is provided; personal stories are shared only with consent. No records of completed help have been published yet.',
+    helpNote: 'Payment is for a symbolic experience and support for the service. Your wish is a personal intention, with no guarantee of wealth, success, love or health. USD is a reference; transfers and any refunds are in TON. Your wallet shows the network fee separately.',
+    legalLabel: 'Service information', terms: 'Payments & refunds', privacy: 'Privacy', contact: 'Contact',
+  },
+  az: {
+    loading: 'TON ödənişi hazırlanır…',
+    checkoutUnavailable: 'Ödəniş yüklənə bilmədi. TON göndərmisənsə, yenidən göndərməzdən əvvəl dəstəyə müraciət et.', retry: 'Yenidən yüklə',
+    amountLabel: '{min}-dan · USD üzrə istinad', amountAria: '{currency} ilə məbləğ',
+    amountNote: 'Köçürmədən əvvəl dəqiq TON məbləğini görəcəksən.',
+    supportCopy: 'Alınan hər ödənişin komissiyadan əvvəl 25%-i ehtiyacı olan insanlara birbaşa yardıma ayrılır.',
+    helpCopy: '“Heçliyə” ritualın adıdır. Ödənişi Into Nowhere kommersiya xidməti alır. Alınan hər ödənişin komissiyadan əvvəl 25%-i ehtiyacı olan insanlara birbaşa yardıma ayrılır. Qalan 75% xidmətin gəliri və xərcləridir. TON ödənişlərində yardım payı TON ilə uçota alınır. Yardım göstərildikdən sonra təsdiqlər dərc edilir; şəxsi hekayələr yalnız razılıqla paylaşılır. Göstərilmiş yardım barədə hələ hesabat dərc edilməyib.',
+    helpNote: 'Ödəniş simvolik təcrübə və xidmətə dəstək üçündür. Arzun şəxsi niyyət olaraq qalır; var-dövlət, uğur, sevgi və ya sağlamlığa zəmanət verilmir. USD istinad üçündür; köçürmələr və mümkün geri ödənişlər TON ilə edilir. Şəbəkə komissiyasını pulqabı ayrıca göstərir.',
+    legalLabel: 'Xidmət haqqında məlumat', terms: 'Ödənişlər və geri qaytarma', privacy: 'Məxfilik', contact: 'Əlaqə',
+  },
+};
+
 const words = {
   "ru": {
     "tagline": "Ритуал «В никуда»",

@@ -1,12 +1,23 @@
 {
   "name": "into-nowhere",
   "private": true,
-  "workspaces": ["apps/web"],
+  "workspaces": [
+    "apps/web",
+    "apps/payments-worker"
+  ],
   "scripts": {
     "dev": "npm run dev --workspace @into-nowhere/web",
     "dev:api": "cd apps/api && go run ./cmd/server",
     "build": "npm run build --workspace @into-nowhere/web",
     "test": "npm run test --workspace @into-nowhere/web",
-    "test:api": "cd apps/api && go test ./..."
+    "test:api": "cd apps/api && go test ./...",
+    "test:payments": "npm run test --workspace @into-nowhere/payments-worker",
+    "check:payments": "npm run typecheck --workspace @into-nowhere/payments-worker",
+    "dev:payments": "wrangler dev --local --port 8787",
+    "deploy:payments": "npm run build && wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261004.1",
+    "wrangler": "^4.147.0"
   }
 }

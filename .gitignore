@@ -8,4 +8,7 @@ dist/
 work/
 outputs/
 *.tsbuildinfo
+.wrangler/
+.dev.vars
+.dev.vars.*
 apps/api/bin/

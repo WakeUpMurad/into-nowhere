@@ -2,12 +2,14 @@ import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import * as Select from '@radix-ui/react-select';
 import * as Collapsible from '@radix-ui/react-collapsible';
 import { AudioLines, Check, ChevronDown, Globe2, Monitor, Moon, Orbit, Sparkles, Sun } from 'lucide-react';
-import { translations, type Intention, type Locale } from './i18n';
+import { translations, commerceTranslations, type Intention, type Locale } from './i18n';
 import { useRitualStore, type ThemePreference, type Wallet } from './store';
 import { parseAmount, formatAmount } from './domain/money';
 import { AmbientMusic } from './audio';
 import { useReducedMotion, useTheme } from './hooks';
-import { usePublicConfig } from './api';
+import { usePublicConfig, type PaymentOrder } from './api';
+import { PaymentBoundary } from './components/PaymentBoundary';
+const Checkout = lazy(() => import('./components/Checkout').then(module => ({ default: module.Checkout })));
 const SacredGeometry = lazy(() => import('./components/SacredGeometry').then(module => ({ default: module.SacredGeometry })));
 
 const intentions: Intention[] = ['wealth', 'health', 'success', 'love', 'gratitude'];
@@ -17,13 +19,19 @@ const themes: ThemePreference[] = ['system', 'light', 'dark'];
 export function App() {
   const state = useRitualStore();
   const t = translations[state.locale];
+  const commerce = commerceTranslations[state.locale];
   const selected = t.topics[state.intention];
   const config = usePublicConfig();
   const reducedMotion = useReducedMotion();
   const resolvedTheme = useTheme(state.theme);
   const ThemeIcon = state.theme === 'system' ? Monitor : state.theme === 'dark' ? Moon : Sun;
   const amountMinor = parseAmount(state.amount);
-  const validAmount = amountMinor !== null && amountMinor >= 100n;
+  const live = config.data?.mode === 'live' && config.data.paymentsEnabled;
+  const currency = config.data?.currency ?? 'USD';
+  const minAmount = BigInt(config.data?.minAmountMinor ?? 100);
+  const maxAmount = config.data?.maxAmountMinor ? BigInt(config.data.maxAmountMinor) : null;
+  const validAmount = amountMinor !== null && amountMinor.toString().length <= 30 && amountMinor >= minAmount && (maxAmount === null || amountMinor <= maxAmount);
+  const [checkoutBusy, setCheckoutBusy] = useState(false);
   const [showValidation, setShowValidation] = useState(false);
   const [customAmountSelected, setCustomAmountSelected] = useState(false);
   const [audioError, setAudioError] = useState(false);
@@ -35,7 +43,7 @@ export function App() {
   const musicPending = useRef(false);
   const ignoreClickUntil = useRef(0);
   const actionRef = useRef<HTMLButtonElement>(null);
-  const busy = state.phase === 'holding' || state.phase === 'releasing';
+  const busy = checkoutBusy || state.phase === 'holding' || state.phase === 'releasing';
 
   const playMusic = useCallback(async () => {
     const audio = ambient.current;
@@ -122,6 +130,20 @@ export function App() {
     if (!reducedMotion && !document.hidden) { try { navigator.vibrate?.([18,35,28]); } catch { /* Optional browser capability. */ } }
   }
   function cancelHold() { if (useRitualStore.getState().phase === 'holding') useRitualStore.getState().setPhase('idle'); }
+  const restoreOrder = useCallback((order: PaymentOrder) => {
+    const current = useRitualStore.getState();
+    const amount = BigInt(order.amountMinor);
+    if (order.intention) current.setIntention(order.intention);
+    current.setAmount(`${amount / 100n}.${(amount % 100n).toString().padStart(2, '0')}`);
+  }, []);
+  const paymentConfirmed = useCallback((order: PaymentOrder) => {
+    if (order.status !== 'paid' || !order.confirmation) return;
+    restoreOrder(order);
+    const current = useRitualStore.getState();
+    current.setPhase('releasing');
+    if (current.musicOn) ambient.current.chime();
+    if (!reducedMotion && !document.hidden) { try { navigator.vibrate?.([18,35,28]); } catch { /* Optional feedback. */ } }
+  }, [reducedMotion, restoreOrder]);
 
   const caption = state.phase === 'idle' ? selected.caption : state.phase === 'holding' ? (state.intention === 'gratitude' ? t.holdingGratitude : t.holdingCaption) : state.phase === 'releasing' ? (state.intention === 'gratitude' ? t.releaseGratitude : t.releaseCaption) : state.intention === 'gratitude' ? t.completionGratitude : t.completionCaption;
   const actionLabel = state.phase === 'done' ? t.another : state.phase === 'holding' ? t.ready : state.phase === 'releasing' ? t.phases.releasing : validAmount ? t.demoAction.replace('{amount}',formatAmount(amountMinor!)) : t.amountPrompt;
@@ -152,11 +174,12 @@ export function App() {
             <div className="vn-description">{t.description}</div>
             {state.phase === 'done' ? <div className="vn-outcome" role="status">{selected.outcome}</div> : <div className="vn-intention"><span className="vn-small-label">{t.intentionLabel}</span><div className="vn-intention-text">{selected.intention}</div></div>}
             <div className="vn-amount-panel">
-              <label htmlFor="vn-custom-amount" className="vn-small-label">{t.amountLabel}</label>
-              <div className="vn-amount-controls">{['1','5','10'].map(amount => <button type="button" key={amount} className="vn-amount" aria-pressed={!customAmountSelected && amountMinor === BigInt(amount)*100n} disabled={busy} onClick={() => {setCustomAmountSelected(false);state.setAmount(amount);setShowValidation(false);}}>${amount}</button>)}<input id="vn-custom-amount" className="vn-custom" type="text" inputMode="decimal" placeholder={t.custom} aria-label={t.customAria} aria-invalid={showValidation&&!validAmount} aria-describedby={showValidation&&!validAmount ? 'vn-validation' : undefined} value={customAmountSelected?state.amount:''} disabled={busy} autoComplete="off" onChange={event => {setCustomAmountSelected(true);state.setAmount(event.target.value);setShowValidation(false);}}/></div>
+              <label htmlFor="vn-custom-amount" className="vn-small-label">{live ? commerce.amountLabel.replace('{min}', formatAmount(minAmount, currency)) : t.amountLabel}</label>
+              <div className="vn-amount-controls">{['1','5','10'].map(amount => <button type="button" key={amount} className="vn-amount" aria-pressed={!customAmountSelected && amountMinor === BigInt(amount)*100n} disabled={busy || BigInt(amount)*100n < minAmount} onClick={() => {setCustomAmountSelected(false);state.setAmount(amount);setShowValidation(false);}}>{formatAmount(BigInt(amount)*100n, currency)}</button>)}<input id="vn-custom-amount" className="vn-custom" type="text" inputMode="decimal" placeholder={t.custom} aria-label={live ? commerce.amountAria.replace('{currency}', currency) : t.customAria} aria-invalid={showValidation&&!validAmount} aria-describedby={showValidation&&!validAmount ? 'vn-validation' : undefined} value={customAmountSelected?state.amount:''} disabled={busy} autoComplete="off" onChange={event => {setCustomAmountSelected(true);state.setAmount(event.target.value);setShowValidation(false);}}/></div>
               {showValidation&&!validAmount && <div id="vn-validation" className="vn-validation" role="alert">{t.validation}</div>}
-              <div className="vn-amount-note">{t.amountNote}</div>
+              <div className="vn-amount-note">{live ? commerce.amountNote : t.amountNote}</div>
             </div>
+            {config.isPending ? <div className="vn-checkout-panel" role="status">{commerce.loading}</div> : live && config.data ? <PaymentBoundary message={commerce.checkoutUnavailable} retry={commerce.retry}><Suspense fallback={<div className="vn-checkout-panel" role="status">{commerce.loading}</div>}><Checkout config={config.data} amountMinor={validAmount ? amountMinor : null} intention={state.intention} locale={state.locale} onConfirmed={paymentConfirmed} onOrderRestored={restoreOrder} onReset={() => useRitualStore.getState().setPhase('idle')} onBusyChange={setCheckoutBusy}/></Suspense></PaymentBoundary> : <>
             <div className="vn-payment-panel"><span className="vn-small-label">{t.paymentLabel}</span><div className="vn-payments" role="group" aria-label={t.paymentLabel}>{(['apple','google','card'] as Wallet[]).map(wallet => <button type="button" key={wallet} className="vn-wallet" aria-pressed={state.wallet===wallet} disabled={busy} onClick={() => state.setWallet(wallet)}>{wallet==='apple'?'Apple Pay':wallet==='google'?'Google Pay':t.card}</button>)}</div></div>
             <button ref={actionRef} type="button" className="vn-release" disabled={state.phase==='releasing'}
               onPointerDown={event => {if(event.button!==0)return;event.preventDefault();event.currentTarget.focus();ignoreClickUntil.current=performance.now()+500;if(begin())event.currentTarget.setPointerCapture(event.pointerId);}}
@@ -168,6 +191,7 @@ export function App() {
             ><span className="vn-button-label">{actionLabel}</span><Sparkles aria-hidden="true"/></button>
             <div className="vn-gesture-note">{state.phase==='done'?t.doneNote:t.holdNote}</div>
             <div className="vn-prototype-label">{t.demo}</div>
+            </>}
             {config.isError && <div className="vn-api-status" role="status">{t.queryUnavailable}</div>}
           </div>
           <div className="vn-art">
@@ -179,8 +203,9 @@ export function App() {
             <div className="vn-audio-status" role="status">{audioError?t.musicError:state.musicOn&&audioPaused?t.musicResume:''}</div>
           </div>
         </div>
-        <footer className="vn-support"><div className="vn-support-number">25<span>%</span></div><div className="vn-support-copy"><span className="vn-small-label">{t.supportLabel}</span><div>{t.supportCopy}</div><span className="vn-mobile-support">{t.supportMobile}</span></div><Collapsible.Trigger className="vn-how"><span>{t.helpButton}</span><ChevronDown aria-hidden="true"/></Collapsible.Trigger></footer>
-        <Collapsible.Content className="vn-help-panel"><div className="vn-small-label">{t.commercial}</div><div>{t.helpCopy}</div><div className="vn-help-note">{t.helpNote}</div></Collapsible.Content>
+        <footer className="vn-support"><div className="vn-support-number">25<span>%</span></div><div className="vn-support-copy"><span className="vn-small-label">{t.supportLabel}</span><div>{live ? commerce.supportCopy : t.supportCopy}</div><span className="vn-mobile-support">{t.supportMobile}</span></div><Collapsible.Trigger className="vn-how"><span>{t.helpButton}</span><ChevronDown aria-hidden="true"/></Collapsible.Trigger></footer>
+        <Collapsible.Content className="vn-help-panel"><div className="vn-small-label">{t.commercial}</div><div>{live ? commerce.helpCopy : t.helpCopy}</div><div className="vn-help-note">{live ? commerce.helpNote : t.helpNote}</div></Collapsible.Content>
+        {live && <nav className="vn-legal" aria-label={commerce.legalLabel}><a href={`${import.meta.env.BASE_URL}terms.html#${state.locale}`}>{commerce.terms}</a><a href={`${import.meta.env.BASE_URL}privacy.html#${state.locale}`}>{commerce.privacy}</a><a href={`mailto:${config.data?.supportEmail}`}>{commerce.contact}</a></nav>}
       </section>
     </Collapsible.Root>
   </main>;

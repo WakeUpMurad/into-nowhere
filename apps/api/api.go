@@ -18,12 +18,17 @@ type serviceConfig struct {
 	PaymentsEnabled     bool     `json:"paymentsEnabled"`
 	PaymentMethods      []string `json:"paymentMethods"`
 	CharitySharePercent int      `json:"charitySharePercent"`
+	MaxAmountMinor      *string  `json:"maxAmountMinor"`
+	MerchantName        string   `json:"merchantName,omitempty"`
+	SupportEmail        string   `json:"supportEmail,omitempty"`
+	Provider            string   `json:"provider,omitempty"`
 }
 
 type paymentRequest struct {
 	AmountMinor string `json:"amountMinor"`
 	Currency    string `json:"currency"`
 	Intention   string `json:"intention"`
+	Locale      string `json:"locale,omitempty"`
 }
 
 type apiError struct {
@@ -33,32 +38,8 @@ type apiError struct {
 
 // NewHandler returns the demo API. Real payment methods are deliberately absent.
 func NewHandler() http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Cache-Control", "no-store")
-		w.Header().Set("X-Content-Type-Options", "nosniff")
-		switch r.URL.Path {
-		case "/api/health":
-			if !requireMethod(w, r, http.MethodGet) {
-				return
-			}
-			writeJSON(w, http.StatusOK, map[string]string{"status": "ok"})
-		case "/api/config":
-			if !requireMethod(w, r, http.MethodGet) {
-				return
-			}
-			writeJSON(w, http.StatusOK, serviceConfig{
-				Mode: "demo", Currency: "USD", MinAmountMinor: 100,
-				PaymentsEnabled: false, PaymentMethods: []string{}, CharitySharePercent: 25,
-			})
-		case "/api/payments/create":
-			if !requireMethod(w, r, http.MethodPost) {
-				return
-			}
-			createPayment(w, r)
-		default:
-			writeError(w, http.StatusNotFound, "NOT_FOUND", "Endpoint not found.")
-		}
-	})
+	handler, _ := NewConfiguredHandler(Options{})
+	return handler
 }
 
 func requireMethod(w http.ResponseWriter, r *http.Request, method string) bool {

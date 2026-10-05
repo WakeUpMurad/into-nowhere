@@ -1,0 +1,20 @@
+{
+  "name": "@into-nowhere/payments-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@ton/core": "^0.63.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261004.1",
+    "@types/node": "^26.6.4",
+    "miniflare": "5.20261001.0-alpha",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.3"
+  }
+}
