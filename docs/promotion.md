@@ -122,6 +122,57 @@ Questions and refunds: murad.losangeles@gmail.com
 
 #IntoNowhere #TON #DigitalRitual
 
+## Second series: 9 October 2026
+
+Two new 12-second videos were published on both platforms after reviewing the initial results. Both Shorts are marked **Public** in YouTube Studio and passed its copyright checks. Both Reels returned Instagram's publication success message; their captions and playback were verified on the public pages. Each Reel has its matching cover and original audio, a 9:16 crop, and Facebook cross-posting off. No paid advertising or engagement was purchased.
+
+| Video | YouTube Short | Instagram Reel |
+| --- | --- | --- |
+| Can you follow the green dot? | Release | https://youtube.com/shorts/IiRBEDMDeEA | https://www.instagram.com/release.into_nowhere/reel/DeSXiUatMuD/ |
+| The $1 anti-flex: tiny gesture, shiny geometry | https://youtube.com/shorts/iiPAhNgATGc | https://www.instagram.com/release.into_nowhere/reel/DeSXiULN95i/ |
+
+### Baseline and creative changes
+
+As observed on 9 October, the channel had 121 views: 66 on the first Short and 55 on the light edition. The light edition had 6 engaged views, an estimated 3 unique viewers, 8.5% staying to watch and 91.5% swiping away. Average view duration was 12 seconds and average percentage viewed was 63.9%; the timeline retention graph had insufficient data. This small sample supports testing a stronger opening; it does not establish algorithmic suppression. Instagram's public Reel cards showed 24 light-video views and 77 dark-video views, not unique reach.
+
+The new first frames contain the hook and moving geometry immediately. **Center Challenge** uses a visible green marker, a short countdown and a free visual preview. **The $1 Anti-Flex** uses quicker comic phrasing and camera changes to introduce the optional paid gesture. Price, native TON and network fees remain explicit in the closing frame and captions. The original, distinct 12-second music tracks and encoded video/audio checks are saved under ignored `outputs/promo/oct09/`.
+
+The live site provides geometry/music preview free, while its final release effect requires a confirmed payment. TON-only checkout still requires a funded mainnet wallet; ordinary card, Apple Pay and Google Pay checkout is unavailable. No funnel events are currently recorded. Payment-order totals were not independently retrieved because Cloudflare CLI authentication failed; do not infer invoice or payment counts from social views. The owner reported no payments.
+
+Publication is complete; viral reach, additional views and conversions remain unverified outcomes. Compare subsequent stayed-to-watch rate, engaged views and checkout activity before deciding the next creative change.
+
+### Published captions
+
+**Can you follow the green dot? | Release**
+
+> Follow the green dot. Sound on.
+>
+> A tiny visual challenge with moving geometry and original sound. This video is free to watch. Preview the geometry and music on the Release website free.
+>
+> Release also offers an optional paid symbolic ritual: from US$1 equivalent in native TON, plus network fees. Native TON only.
+>
+> 25% of gross payments before fees is allocated to direct help for people in need. Commercial service; no promised outcomes.
+>
+> Already use TON? Open the website link in our bio.
+>
+> Questions/refunds: murad.losangeles@gmail.com
+> #TON #GenerativeArt #IntoNowhere
+
+**The $1 anti-flex: tiny gesture, shiny geometry**
+
+> Tiny gesture. Ridiculously shiny geometry.
+>
+> Release · Into Nowhere is an optional paid symbolic ritual with moving geometry and original ambient sound. Preview the geometry and music free; the final release effect follows a confirmed payment.
+>
+> From US$1 equivalent in native TON, plus network fees. Native TON only.
+>
+> 25% of gross payments before fees is allocated to direct help for people in need. Commercial service; no promised wealth, health, luck or relationship outcomes.
+>
+> Already use TON? Open the website link in our bio.
+>
+> Questions/refunds: murad.losangeles@gmail.com
+> #TON #DigitalArt #IntoNowhere
+
 ## Upload checklist
 
 1. Create a separate project channel; preserve the existing personal channel.
