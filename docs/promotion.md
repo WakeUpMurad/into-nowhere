@@ -128,7 +128,7 @@ Two new 12-second videos were published on both platforms after reviewing the in
 
 | Video | YouTube Short | Instagram Reel |
 | --- | --- | --- |
-| Can you follow the green dot? | Release | https://youtube.com/shorts/IiRBEDMDeEA | https://www.instagram.com/release.into_nowhere/reel/DeSXiUatMuD/ |
+| Can you follow the green dot? \| Release | https://youtube.com/shorts/IiRBEDMDeEA | https://www.instagram.com/release.into_nowhere/reel/DeSXiUatMuD/ |
 | The $1 anti-flex: tiny gesture, shiny geometry | https://youtube.com/shorts/iiPAhNgATGc | https://www.instagram.com/release.into_nowhere/reel/DeSXiULN95i/ |
 
 ### Baseline and creative changes
@@ -140,6 +140,14 @@ The new first frames contain the hook and moving geometry immediately. **Center 
 The live site provides geometry/music preview free, while its final release effect requires a confirmed payment. TON-only checkout still requires a funded mainnet wallet; ordinary card, Apple Pay and Google Pay checkout is unavailable. No funnel events are currently recorded. Payment-order totals were not independently retrieved because Cloudflare CLI authentication failed; do not infer invoice or payment counts from social views. The owner reported no payments.
 
 Publication is complete; viral reach, additional views and conversions remain unverified outcomes. Compare subsequent stayed-to-watch rate, engaged views and checkout activity before deciding the next creative change.
+
+### Audit and measurement correction: 10 October 2026
+
+The owner again reported no payments. YouTube Studio's Shorts table showed 66 views on the original dark video, 55 on the light video, 63 on Center Challenge and 16 on Anti-Flex (200 in total). Instagram's public Reel cards showed 77, 24, 15 and 24 respectively. Both profiles still had zero subscribers/followers. These are platform view counters, not verified organic viewers, website visits or sales.
+
+The latest YouTube dashboard also showed an anomalous **33,870.9% average percentage viewed** for Anti-Flex and 2.5 channel watch hours. Four previously opened public video tabs were found playing on repeat during verification. That checking mistake may have contaminated watch duration and other counters, including earlier figures; its exact contribution cannot be determined. Playback was paused through the visible UI, pause state was checked, and those tabs were navigated to the channel/profile grids to prevent further looping. Do not use the duration or retention figures above as evidence of audience interest or forecast sales.
+
+There is still no measured website-to-checkout funnel or independently retrieved payment-order total. Further creative variants alone do not resolve the untested paid value and funded-TON-wallet requirement. A separate private sales kit now explores selling a defined website or video deliverable; no client demand or paid order is claimed.
 
 ### Published captions
 
